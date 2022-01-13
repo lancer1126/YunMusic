@@ -1,6 +1,6 @@
 本项目学习自YesPlayMusic
 
-# yunmusic
+# YunMusic
 
 ## Project setup
 ```
