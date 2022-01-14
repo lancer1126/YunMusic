@@ -14,19 +14,19 @@
 
       <div class="navigation-links">
         <router-link to="/" :class="{ active: $route.name === 'home' }">
-          首页
+          {{ $t("nav.home") }}
         </router-link>
         <router-link
           to="/explore"
           :class="{ active: $route.name === 'explore' }"
         >
-          探索
+          {{ $t("nav.explore") }}
         </router-link>
         <router-link
           to="/library"
           :class="{ active: $route.name === 'library' }"
         >
-          音乐库
+          {{ $t("nav.library") }}
         </router-link>
       </div>
 
@@ -47,19 +47,41 @@
             </div>
           </div>
         </div>
+        <img class="avatar" :src="avatarUrl" @click="showUserProfileMenu" />
       </div>
     </nav>
+
+    <context-menu ref="userProfileMenu">
+      <div class="item" @click="toSetting">
+        <svg-icon icon-class="settings" />
+        {{ $t("library.userProfileMenu.settings") }}
+      </div>
+      <div v-if="!isLoggedIn" class="item" @click="toLogin">
+        <svg-icon icon-class="login" />
+        {{ $t("login.login") }}
+      </div>
+      <div v-if="isLoggedIn" class="item" @click="logout">
+        <svg-icon icon-class="logout" />
+        {{ $t("library.userProfileMenu.logout") }}
+      </div>
+      <div class="item" @click="toGithub">
+        <svg-icon icon-class="github" />
+        {{ $t("nav.github") }}
+      </div>
+    </context-menu>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import "vscode-codicons/dist/codicon.css";
+import { isLoggedIn } from "@/utils/auth";
 import ButtonIcon from "@/components/ButtonIcon";
+import ContextMenu from "@/components/ContextMenu";
 
 export default {
   name: "NavBar",
   components: {
+    ContextMenu,
     ButtonIcon,
   },
   data() {
@@ -72,6 +94,14 @@ export default {
   },
   computed: {
     ...mapState(["settings", "data"]),
+    avatarUrl() {
+      return this.data?.user?.avatarUrl && this.isLoggedIn
+        ? `${this.data?.user?.avatarUrl}?param=512y512`
+        : "https://s4.music.126.net/style/web2/img/default/default_avatar.jpg?param=60y60";
+    },
+    isLoggedIn() {
+      return isLoggedIn();
+    },
   },
   methods: {
     go(where) {
@@ -79,6 +109,21 @@ export default {
       else this.$router.go(1);
     },
     doSearch() {},
+    showUserProfileMenu(e) {
+      this.$refs.userProfileMenu.openMenu(e);
+    },
+    toSetting() {
+      return null;
+    },
+    toLogin() {
+      return null;
+    },
+    logout() {
+      return null;
+    },
+    toGithub() {
+      window.open("https://github.com/lancer1126");
+    },
   },
 };
 </script>
