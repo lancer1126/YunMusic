@@ -1,26 +1,5 @@
-本项目学习自YesPlayMusic
+个人学习项目，学习自YesPlayMusic  
+  
+目前进度：  
+完成首页推荐歌单  
 
-# YunMusic
-
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
