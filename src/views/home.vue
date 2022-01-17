@@ -13,6 +13,13 @@
         sub-text="copywriter"
       />
     </div>
+    <div class="index-row">
+      <div class="title">For You</div>
+      <div class="for-you-row">
+        <DailyTracksCard ref="DailyTracksCard" />
+        <FMCard />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -20,8 +27,10 @@
 import { recommendPlaylist } from "@/api/playlist";
 import CoverRow from "@/components/CoverRow";
 import NProgress from "nprogress";
+import DailyTracksCard from "@/components/DailyTracksCard";
+import FMCard from "@/components/FMCard";
 export default {
-  components: { CoverRow },
+  components: { FMCard, DailyTracksCard, CoverRow },
   data() {
     return {
       show: true,
