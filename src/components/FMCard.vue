@@ -51,8 +51,7 @@ export default {
       return null;
     },
     track() {
-      let player = JSON.parse(localStorage.getItem("player"));
-      return player._personalFMTrack;
+      return this.player.personalFMTrack;
     },
     isPlaying() {
       return null;

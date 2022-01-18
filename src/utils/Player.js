@@ -1,3 +1,5 @@
+import { personFM } from "@/api/other";
+
 const excludeSaveKeys = [
   "_playing",
   "_personalFMLoading",
@@ -42,7 +44,24 @@ export default class {
     window.yesplaymusic.player = this;
   }
 
-  _init() {}
+  get personalFMTrack() {
+    return this._personalFMTrack;
+  }
+
+  _init() {
+    if (
+      this._personalFMTrack.id === 0 ||
+      this._personalFMNextTrack.id === 0 ||
+      this._personalFMTrack.id === this._personalFMNextTrack.id
+    ) {
+      personFM().then((result) => {
+        this._personalFMTrack = result.data[0];
+        this._personalFMNextTrack = result.data[1];
+        return this._personalFMTrack;
+      });
+    }
+  }
+
   saveSelfToLocalStorage() {
     let player = {};
     for (let [key, value] of Object.entries(this)) {
