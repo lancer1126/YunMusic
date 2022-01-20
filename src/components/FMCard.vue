@@ -12,7 +12,7 @@
         <div class="artist">{{ track.artist }}</div>
       </div>
       <div class="controls">
-        <div class="button">
+        <div class="buttons">
           <button-icon title="不喜欢" @click.native="moveToFMTrash">
             <svg-icon id="thumbs-down" icon-class="thumbs-down" />
           </button-icon>
@@ -26,8 +26,8 @@
           <button-icon :title="$t('player.next')" @click.native="next">
             <svg-icon icon-class="next" />
           </button-icon>
+          <div class="card-name"><svg-icon icon-class="fm" />私人FM</div>
         </div>
-        <div class="card-name"><svg-icon icon-class="fm" />私人FM</div>
       </div>
     </div>
   </div>

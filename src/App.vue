@@ -13,16 +13,23 @@
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive"></router-view>
     </main>
+
+    <!-- 底部播放栏 -->
+    <transition name="slide-up">
+      <Player v-if="enablePlayer" v-show="showPlayer" ref="player" />
+    </transition>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import NavBar from "./components/NavBar";
+import Player from "@/components/Player";
 
 export default {
   name: "App",
   components: {
+    Player,
     NavBar,
   },
   data() {
@@ -32,9 +39,23 @@ export default {
     };
   },
   computed: {
-    ...mapState(["enableScrolling"]),
+    ...mapState(["enableScrolling", "player"]),
     showNavBar() {
       return this.$route.name !== "lastfmCallback";
+    },
+    enablePlayer() {
+      return this.player.enabled && this.$route.name !== "lastfmCallback";
+    },
+    showPlayer() {
+      return (
+        [
+          "mv",
+          "loginUsername",
+          "login",
+          "loginAccount",
+          "lastfmCallback",
+        ].includes(this.$route.name) === false
+      );
     },
   },
   methods: {

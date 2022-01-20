@@ -12,6 +12,11 @@ const routes = [
       savePosition: true,
     },
   },
+  {
+    path: "/playlist/:id",
+    name: "playlist",
+    component: () => import("@/views/playlist"),
+  },
 ];
 
 const router = new VueRouter({

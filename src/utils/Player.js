@@ -11,7 +11,7 @@ export default class {
     // 播放器状态
     this._playing = false; // 是否正在播放中
     this._progress = 0; // 当前播放歌曲的进度
-    this._enabled = false; // 是否启用Player
+    this._enabled = true; // 是否启用Player
     this._repeatMode = "off"; // off | on | one
     this._shuffle = false; // true | false
     this._volume = 1; // 0 to 1
@@ -46,6 +46,9 @@ export default class {
 
   get personalFMTrack() {
     return this._personalFMTrack;
+  }
+  get enabled() {
+    return this._enabled;
   }
 
   _init() {

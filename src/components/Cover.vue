@@ -71,7 +71,7 @@ export default {
       return null;
     },
     goTo() {
-      return null;
+      this.$router.push({ name: this.type, params: { id: this.id } });
     },
   },
 };
@@ -82,9 +82,11 @@ export default {
   position: relative;
   transition: transform 0.3s;
 }
+
 .cover-container {
   position: relative;
 }
+
 img {
   border-radius: 0.75em;
   width: 100%;
@@ -110,6 +112,7 @@ img {
   justify-content: center;
   align-items: center;
 }
+
 .play-button {
   display: flex;
   justify-content: center;
@@ -123,15 +126,18 @@ img {
   border-radius: 50%;
   cursor: default;
   transition: 0.2s;
+
   .svg-icon {
     height: 44%;
     margin: {
       left: 4px;
     }
   }
+
   &:hover {
     background: rgba(255, 255, 255, 0.28);
   }
+
   &:active {
     transform: scale(0.94);
   }
@@ -154,6 +160,7 @@ img {
 .fade-leave-active {
   transition: opacity 0.3s;
 }
+
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
