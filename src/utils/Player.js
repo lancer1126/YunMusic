@@ -50,6 +50,9 @@ export default class {
   get enabled() {
     return this._enabled;
   }
+  get currentTrack() {
+    return this._currentTrack;
+  }
 
   _init() {
     if (
