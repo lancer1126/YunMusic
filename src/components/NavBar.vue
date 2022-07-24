@@ -1,8 +1,6 @@
 <template>
   <div>
     <nav>
-      <!-- todo electron页面 -->
-
       <div class="navigation-buttons">
         <button-icon @click.native="go('back')">
           <svg-icon icon-class="arrow-left" />
@@ -47,18 +45,24 @@
             </div>
           </div>
         </div>
-        <img class="avatar" :src="avatarUrl" @click="showUserProfileMenu" />
+        <img
+          class="avatar"
+          :src="avatarUrl"
+          loading="lazy"
+          alt=""
+          @click="showUserProfileMenu"
+        />
       </div>
     </nav>
 
     <context-menu ref="userProfileMenu">
-      <div class="item" @click="toSetting">
-        <svg-icon icon-class="settings" />
-        {{ $t("library.userProfileMenu.settings") }}
-      </div>
       <div v-if="!isLoggedIn" class="item" @click="toLogin">
         <svg-icon icon-class="login" />
         {{ $t("login.login") }}
+      </div>
+      <div class="item" @click="toSetting">
+        <svg-icon icon-class="settings" />
+        {{ $t("library.userProfileMenu.settings") }}
       </div>
       <div v-if="isLoggedIn" class="item" @click="logout">
         <svg-icon icon-class="logout" />
@@ -74,7 +78,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { isLoggedIn } from "@/utils/auth";
+import { isLoggedIn, doLogout } from "@/utils/auth";
 import ButtonIcon from "@/components/ButtonIcon";
 import ContextMenu from "@/components/ContextMenu";
 
@@ -116,10 +120,12 @@ export default {
       return null;
     },
     toLogin() {
-      return null;
+      this.$router.push({ name: "login" });
     },
     logout() {
-      return null;
+      if (!confirm("退出登录？")) return;
+      doLogout();
+      this.$router.push({ name: "home" });
     },
     toGithub() {
       window.open("https://github.com/lancer1126");

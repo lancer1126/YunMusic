@@ -17,6 +17,16 @@ const routes = [
     name: "playlist",
     component: () => import("@/views/playlist"),
   },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/login"),
+  },
+  {
+    path: "/login/account",
+    name: "loginAccount",
+    component: () => import("@/views/loginAccount"),
+  },
 ];
 
 const router = new VueRouter({

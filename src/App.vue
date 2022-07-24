@@ -1,5 +1,6 @@
 <template>
   <div id="app" :class="{ 'user-select-none': userSelectNone }">
+    <ScrollBar v-show="true" ref="scrollBar" />
     <NavBar v-show="showNavBar" ref="navBar" />
 
     <!-- 页面主体部分-->
@@ -25,21 +26,22 @@
 import { mapState } from "vuex";
 import NavBar from "./components/NavBar";
 import Player from "@/components/Player";
+import ScrollBar from "@/components/ScrollBar";
 
 export default {
   name: "App",
   components: {
+    ScrollBar,
     Player,
     NavBar,
   },
   data() {
     return {
-      isElectron: process.env.IS_ELECTRON,
       userSelectNone: false,
     };
   },
   computed: {
-    ...mapState(["enableScrolling", "player"]),
+    ...mapState(["enableScrolling", "player", "showLyrics"]),
     showNavBar() {
       return this.$route.name !== "lastfmCallback";
     },
@@ -58,8 +60,22 @@ export default {
       );
     },
   },
+  created() {
+    window.addEventListener("keydown", this.handleKeydown);
+    this.fetchData();
+  },
   methods: {
     handleScroll() {
+      this.$refs.scrollBar.handleScroll();
+    },
+    handleKeydown(e) {
+      if (e.code === "Space") {
+        if (e.target.tagName === "INPUT") return false;
+        if (this.$route.name === "mv") return false;
+        e.preventDefault();
+      }
+    },
+    fetchData() {
       return null;
     },
   },
@@ -90,7 +106,7 @@ main {
 }
 
 main::-webkit-scrollbar {
-  width: 0px;
+  width: 0;
 }
 
 .slide-up-enter-active,
