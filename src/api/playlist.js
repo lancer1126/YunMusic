@@ -10,3 +10,13 @@ export function recommendPlaylist(params) {
     params,
   });
 }
+
+/**
+ * 获取各个排行榜列表
+ */
+export function getTopCharts() {
+  return request({
+    url: "/toplist",
+    method: "get",
+  });
+}

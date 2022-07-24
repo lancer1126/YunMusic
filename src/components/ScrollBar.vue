@@ -1,12 +1,7 @@
 <template>
   <div>
     <transition name="fade">
-      <div
-        v-show="show"
-        id="scrollBar"
-        :class="{ 'on-drag': isOnDrag }"
-        @click="handleClick"
-      >
+      <div v-show="show" id="scrollBar" :class="{ 'on-drag': isOnDrag }" @click="handleClick">
         <div
           id="thumbContainer"
           :class="{ active }"
@@ -112,10 +107,7 @@ export default {
       const scrollHeight = this.main.scrollHeight - 128;
       const clientY = e.clientY;
       const scrollTop = this.main.scrollTop;
-      const offset = ~~(
-        ((clientY - this.onDragClientY) / clintHeight) *
-        scrollHeight
-      );
+      const offset = ~~(((clientY - this.onDragClientY) / clintHeight) * scrollHeight);
       this.top = ~~((scrollTop / scrollHeight) * clintHeight);
       this.main.scrollBy(0, offset);
       this.onDragClientY = clientY;
@@ -135,11 +127,7 @@ export default {
     },
     restorePosition() {
       const route = this.$route;
-      if (
-        !route.meta.savePosition ||
-        this.positions[route.name] === undefined ||
-        this.main === undefined
-      ) {
+      if (!route.meta.savePosition || this.positions[route.name] === undefined || this.main === undefined) {
         return;
       }
       this.main.scrollTo({ top: this.positions[route.name].scrollTop });
