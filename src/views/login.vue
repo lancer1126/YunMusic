@@ -5,12 +5,7 @@
     </div>
 
     <div class="section-2">
-      <div
-        class="card"
-        @mouseover="activeCard = 1"
-        @mouseleave="activeCard = 0"
-        @click="goTo('account')"
-      >
+      <div class="card" @mouseover="activeCard = 1" @mouseleave="activeCard = 0" @click="goTo('account')">
         <div class="container" :class="{ active: activeCard === 1 }">
           <div class="title-info">
             <div class="title">{{ $t("login.loginText") }}</div>

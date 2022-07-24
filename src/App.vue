@@ -4,11 +4,7 @@
     <NavBar v-show="showNavBar" ref="navBar" />
 
     <!-- 页面主体部分-->
-    <main
-      ref="main"
-      :style="{ overflow: enableScrolling ? 'auto' : 'hidden' }"
-      @scroll="handleScroll"
-    >
+    <main ref="main" :style="{ overflow: enableScrolling ? 'auto' : 'hidden' }" @scroll="handleScroll">
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
@@ -49,15 +45,7 @@ export default {
       return this.player.enabled && this.$route.name !== "lastfmCallback";
     },
     showPlayer() {
-      return (
-        [
-          "mv",
-          "loginUsername",
-          "login",
-          "loginAccount",
-          "lastfmCallback",
-        ].includes(this.$route.name) === false
-      );
+      return ["mv", "loginUsername", "login", "loginAccount", "lastfmCallback"].includes(this.$route.name) === false;
     },
   },
   created() {

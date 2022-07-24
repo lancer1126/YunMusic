@@ -14,16 +14,10 @@
         <router-link to="/" :class="{ active: $route.name === 'home' }">
           {{ $t("nav.home") }}
         </router-link>
-        <router-link
-          to="/explore"
-          :class="{ active: $route.name === 'explore' }"
-        >
+        <router-link to="/explore" :class="{ active: $route.name === 'explore' }">
           {{ $t("nav.explore") }}
         </router-link>
-        <router-link
-          to="/library"
-          :class="{ active: $route.name === 'library' }"
-        >
+        <router-link to="/library" :class="{ active: $route.name === 'library' }">
           {{ $t("nav.library") }}
         </router-link>
       </div>
@@ -45,13 +39,7 @@
             </div>
           </div>
         </div>
-        <img
-          class="avatar"
-          :src="avatarUrl"
-          loading="lazy"
-          alt=""
-          @click="showUserProfileMenu"
-        />
+        <img class="avatar" :src="avatarUrl" loading="lazy" alt="" @click="showUserProfileMenu" />
       </div>
     </nav>
 
@@ -191,8 +179,7 @@ nav {
     .title {
       padding: 8px;
       font-size: 12px;
-      font-family: "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei",
-        sans-serif;
+      font-family: "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
     }
     .controls {
       height: 32px;

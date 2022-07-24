@@ -1,11 +1,6 @@
 <template>
   <div class="cover-row" :style="rowStyles">
-    <div
-      v-for="item in items"
-      :key="item.id"
-      class="item"
-      :class="{ artist: type === 'artist' }"
-    >
+    <div v-for="item in items" :key="item.id" class="item" :class="{ artist: type === 'artist' }">
       <Cover
         :id="item.id"
         :image-url="getImageUrl(item)"
@@ -14,14 +9,10 @@
       />
       <div class="text">
         <div v-if="showPlayCount" class="info">
-          <span class="play-count">
-            <svg-icon icon-class="play" />{{ item.playCount }}
-          </span>
+          <span class="play-count"> <svg-icon icon-class="play" />{{ item.playCount }} </span>
         </div>
         <div class="title" :style="{ fontSize: subTextFontSize }">
-          <span v-if="isExplicit(item)" class="explicit-symbol"
-            ><ExplicitSymbol
-          /></span>
+          <span v-if="isExplicit(item)" class="explicit-symbol"><ExplicitSymbol /></span>
           <span v-if="isPrivacy(item)" class="lock-icon">
             <svg-icon icon-class="lock" />
           </span>
@@ -86,13 +77,10 @@ export default {
       if (this.subText === "description") return item.description;
       if (this.subText === "updateFrequency") return item.updateFrequency;
       if (this.subText === "creator") return "by " + item.creator.nickname;
-      if (this.subText === "releaseYear")
-        return new Date(item.publishTime).getFullYear();
+      if (this.subText === "releaseYear") return new Date(item.publishTime).getFullYear();
       if (this.subText === "artist") {
-        if (item.artist !== undefined)
-          return `<a href="/#/artist/${item.artist.id}">${item.artist.name}</a>`;
-        if (item.artists !== undefined)
-          return `<a href="/#/artist/${item.artists[0].id}">${item.artists[0].name}</a>`;
+        if (item.artist !== undefined) return `<a href="/#/artist/${item.artist.id}">${item.artist.name}</a>`;
+        if (item.artists !== undefined) return `<a href="/#/artist/${item.artists[0].id}">${item.artists[0].name}</a>`;
       }
       if (this.subText === "albumType+releaseYear") {
         let albumType = item.type;

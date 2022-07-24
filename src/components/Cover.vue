@@ -8,22 +8,13 @@
   >
     <div class="cover-container">
       <div class="shade">
-        <button
-          v-show="focus"
-          class="play-button"
-          :style="playButtonSize"
-          @click.stop="play"
-        >
+        <button v-show="focus" class="play-button" :style="playButtonSize" @click.stop="play">
           <svg-icon icon-class="play" />
         </button>
       </div>
       <img :src="imageUrl" :style="imageStyles" alt="" />
       <transition v-if="coverHover || alwaysShowShadow" name="fade">
-        <div
-          v-show="focus || alwaysShowShadow"
-          class="shadow"
-          :style="shadowStyles"
-        ></div>
+        <div v-show="focus || alwaysShowShadow" class="shadow" :style="shadowStyles"></div>
       </transition>
     </div>
   </div>

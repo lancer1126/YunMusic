@@ -49,8 +49,7 @@ export default {
     },
     setMenu(top, left) {
       let heightOffset = this.player.enabled ? 64 : 0;
-      let largestHeight =
-        window.innerHeight - this.$refs.menu.offsetHeight - heightOffset;
+      let largestHeight = window.innerHeight - this.$refs.menu.offsetHeight - heightOffset;
       let largestWidth = window.innerWidth - this.$refs.menu.offsetWidth - 25;
       if (top > largestHeight) top = largestHeight;
       if (left > largestWidth) left = largestWidth;

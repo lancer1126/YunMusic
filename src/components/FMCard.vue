@@ -1,11 +1,7 @@
 <template>
   <div class="fm" :style="{ background }" data-theme="dark">
     <img :src="nextTrackCover" style="display: none" />
-    <img
-      class="cover"
-      :src="track.album && track.album.picUrl"
-      @click="goToAlbum"
-    />
+    <img class="cover" :src="track.album && track.album.picUrl" @click="goToAlbum" />
     <div class="right-part">
       <div class="info">
         <div class="title">{{ track.name }}</div>
@@ -16,11 +12,7 @@
           <button-icon title="不喜欢" @click.native="moveToFMTrash">
             <svg-icon id="thumbs-down" icon-class="thumbs-down" />
           </button-icon>
-          <button-icon
-            :title="$t(isPlaying ? 'player.pause' : 'player.play')"
-            class="play"
-            @click.native="play"
-          >
+          <button-icon :title="$t(isPlaying ? 'player.pause' : 'player.play')" class="play" @click.native="play">
             <svg-icon :icon-class="isPlaying ? 'pause' : 'play'" />
           </button-icon>
           <button-icon :title="$t('player.next')" @click.native="next">

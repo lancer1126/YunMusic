@@ -27,41 +27,22 @@
     <div class="controls">
       <div class="playing">
         <div class="container" @click.stop>
-          <img
-            :src="currentTrack.al && currentTrack.al.picUrl"
-            @click="goToAlbum"
-          />
+          <img :src="currentTrack.al && currentTrack.al.picUrl" @click="goToAlbum" />
           <div class="track-info" :title="audioSource">
-            <div
-              :class="['name', { 'has-list': hasList }]"
-              @click="hasList && goToList"
-            >
+            <div :class="['name', { 'has-list': hasList }]" @click="hasList && goToList">
               {{ currentTrack.name }}
             </div>
             <div class="artist">
-              <span
-                v-for="(ar, index) in currentTrack.ar"
-                :key="ar.id"
-                @click="ar.id && goToArtist(ar.id)"
-              >
+              <span v-for="(ar, index) in currentTrack.ar" :key="ar.id" @click="ar.id && goToArtist(ar.id)">
                 <span :class="{ ar: ar.id }">{{ ar.name }}</span>
                 <span v-if="index !== currentTrack.ar.length - 1">, </span>
               </span>
             </div>
           </div>
           <div class="like-button">
-            <button-icon
-              :title="$t('player.like')"
-              @click.native="likeATrack(player.currentTrack.id)"
-            >
-              <svg-icon
-                v-show="!player.isCurrentTrackLiked"
-                icon-class="heart"
-              ></svg-icon>
-              <svg-icon
-                v-show="player.isCurrentTrackLiked"
-                icon-class="heart-solid"
-              ></svg-icon>
+            <button-icon :title="$t('player.like')" @click.native="likeATrack(player.currentTrack.id)">
+              <svg-icon v-show="!player.isCurrentTrackLiked" icon-class="heart"></svg-icon>
+              <svg-icon v-show="player.isCurrentTrackLiked" icon-class="heart-solid"></svg-icon>
             </button-icon>
           </div>
         </div>
@@ -89,9 +70,7 @@ export default {
       return this.player.currentTrack;
     },
     audioSource() {
-      return this.player._howler?._src.includes("kuwo.cn")
-        ? "音源来自酷我音乐"
-        : "";
+      return this.player._howler?._src.includes("kuwo.cn") ? "音源来自酷我音乐" : "";
     },
   },
   methods: {
