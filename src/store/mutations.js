@@ -5,4 +5,7 @@ export default {
   toggleLyrics(state) {
     state.showLyrics = !state.showLyrics;
   },
+  updateData(state, { key, value }) {
+    state.data[key] = value;
+  },
 };
