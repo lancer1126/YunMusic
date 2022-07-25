@@ -1,4 +1,7 @@
+import { playlistCategories } from "@/utils/staticData";
+
 console.debug("[debug][initLocalStorage.js]");
+const enabledPlaylistCategories = playlistCategories.filter((c) => c.enable).map((c) => c.name);
 
 let localStorage = {
   player: {},
@@ -21,6 +24,7 @@ let localStorage = {
     enableGlobalShortcut: true,
     showLibraryDefault: false,
     subTitleDefault: false,
+    enabledPlaylistCategories,
     proxyConfig: {
       protocol: "noProxy",
       server: "",

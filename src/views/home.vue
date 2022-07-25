@@ -46,7 +46,9 @@ import CoverRow from "@/components/CoverRow";
 import NProgress from "nprogress";
 import DailyTracksCard from "@/components/DailyTracksCard";
 import FMCard from "@/components/FMCard";
+
 export default {
+  name: "Home",
   components: { FMCard, DailyTracksCard, CoverRow },
   data() {
     return {
