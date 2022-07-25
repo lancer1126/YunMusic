@@ -22,10 +22,7 @@ export function setCookies(string) {
 
 // 账号是否登录
 export function isAccountLoggedIn() {
-  return (
-    getCookie("MUSIC_U") !== undefined &&
-    store.state.data.loginMode === "account"
-  );
+  return getCookie("MUSIC_U") !== undefined && store.state.data.loginMode === "account";
 }
 
 // 用户名搜索（用户数据为只读）

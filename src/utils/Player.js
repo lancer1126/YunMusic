@@ -1,10 +1,6 @@
 import { personFM } from "@/api/other";
 
-const excludeSaveKeys = [
-  "_playing",
-  "_personalFMLoading",
-  "_personalFMNextLoading",
-];
+const excludeSaveKeys = ["_playing", "_personalFMLoading", "_personalFMNextLoading"];
 
 export default class {
   constructor() {
