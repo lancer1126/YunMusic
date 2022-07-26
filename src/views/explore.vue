@@ -37,6 +37,12 @@
     <div class="playlists">
       <CoverRow type="playlist" :items="playlists" :sub-text="subText" :show-play-count="activeCategory === '排行榜'" />
     </div>
+
+    <div v-show="excludeLoadCats.includes(activeCategory) === false" class="load-more">
+      <ButtonTwoTone v-show="showMoreButton && hasMore" color="grey" @click.native="getPlayList">
+        {{ $t("explore.loadMore") }}
+      </ButtonTwoTone>
+    </div>
   </div>
 </template>
 
@@ -48,15 +54,17 @@ import { mapState } from "vuex";
 import SvgIcon from "@/components/SvgIcon";
 import CoverRow from "@/components/CoverRow";
 import NProgress from "nprogress";
+import ButtonTwoTone from "@/components/ButtonTwoTone";
 
 export default {
   name: "Explore",
   components: {
+    ButtonTwoTone,
     SvgIcon,
     CoverRow,
   },
   beforeRouteUpdate(to, from, next) {
-    this.showLoadMoreButton = false;
+    this.showMoreButton = false;
     this.hasMore = true;
     this.playlists = [];
     this.offset = 1;
@@ -72,9 +80,10 @@ export default {
       showAllCat: false,
       loadingMore: false,
       hasMore: false,
-      showLoadMoreButton: false,
+      showMoreButton: false,
       playlists: [],
       parentCats: ["语种", "风格", "场景", "情感", "主题"],
+      excludeLoadCats: ["推荐歌单", "排行榜"],
     };
   },
   computed: {
@@ -155,7 +164,7 @@ export default {
       this.playlists.push(...lists);
       this.show = true;
       this.loadingMore = false;
-      this.showLoadMoreButton = true;
+      this.showMoreButton = true;
       NProgress.done();
     },
   },
@@ -267,5 +276,11 @@ export default {
 
 .playlists {
   margin-top: 24px;
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
 }
 </style>
