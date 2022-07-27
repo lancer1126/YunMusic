@@ -31,7 +31,7 @@ let localStorage = {
       port: null,
     },
   },
-  data: {
+  userData: {
     user: {},
     likedSongPlaylistID: 0,
     lastRefreshCookieDate: 0,

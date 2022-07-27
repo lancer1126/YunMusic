@@ -4,7 +4,7 @@ import updateApp from "@/utils/updateApp";
 
 if (localStorage.getItem("appVersion") === null) {
   localStorage.setItem("settings", JSON.stringify(initLocalStorage.settings));
-  localStorage.setItem("data", JSON.stringify(initLocalStorage.data));
+  localStorage.setItem("userData", JSON.stringify(initLocalStorage.data));
   localStorage.setItem("appVersion", pkg.version);
 }
 
@@ -15,6 +15,6 @@ export default {
   enableScrolling: true,
   player: JSON.parse(localStorage.getItem("player")),
   settings: JSON.parse(localStorage.getItem("settings")),
-  data: JSON.parse(localStorage.getItem("data")),
+  userData: JSON.parse(localStorage.getItem("userData")),
   dailyTracks: [],
 };

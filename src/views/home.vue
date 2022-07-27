@@ -7,7 +7,7 @@
           {{ $t("home.seeMore") }}
         </router-link>
       </div>
-      <CoverRow :type="'playList'" :items="recommendPlaylist.items" sub-text="copywriter" />
+      <CoverRow :type="'playlist'" :items="recommendPlaylist.items" sub-text="copywriter" />
     </div>
     <div class="index-row">
       <div class="title">For You</div>

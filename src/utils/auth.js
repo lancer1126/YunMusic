@@ -22,12 +22,12 @@ export function setCookies(string) {
 
 // 账号是否登录
 export function isAccountLoggedIn() {
-  return getCookie("MUSIC_U") !== undefined && store.state.data.loginMode === "account";
+  return getCookie("MUSIC_U") !== undefined && store.state.userData.loginMode === "account";
 }
 
 // 用户名搜索（用户数据为只读）
 export function isUsernameLoggedIn() {
-  return store.state.data.loginMode === "username";
+  return store.state.userData.loginMode === "username";
 }
 
 // 判断是否已登录
@@ -39,7 +39,7 @@ export function doLogout() {
   logout();
   removeCookie("MUSIC_U");
   removeCookie("__csrf");
-  store.commit("updateDate", { key: "user", value: {} });
-  store.commit("updateDate", { key: "loginMode", value: null });
-  store.commit("updateDate", { key: "likedSongPlaylistID", value: undefined });
+  store.commit("updateData", { key: "user", value: {} });
+  store.commit("updateData", { key: "loginMode", value: null });
+  store.commit("updateData", { key: "likedSongPlaylistID", value: undefined });
 }

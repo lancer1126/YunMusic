@@ -4,7 +4,7 @@
     :class="{ 'cover-hover': coverHover }"
     @mouseover="focus = true"
     @mouseleave="focus = false"
-    @click="clickCoverToPlay ? play : goTo"
+    @click="clickCover"
   >
     <div class="cover-container">
       <div class="shade">
@@ -58,7 +58,15 @@ export default {
     },
   },
   methods: {
+    clickCover() {
+      if (this.clickCoverToPlay) {
+        this.play();
+      } else {
+        this.goTo();
+      }
+    },
     play() {
+      // todo 播放
       return null;
     },
     goTo() {
