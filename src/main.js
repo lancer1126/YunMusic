@@ -9,6 +9,7 @@ import i18n from "@/locale";
 import "@/assets/icons";
 import "@/assets/css/global.scss";
 import "@/assets/css/nprogress.css";
+import "@/utils/filter";
 
 Vue.use(VueAnalytics, {
   id: "UA-180189423-1",

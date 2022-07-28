@@ -1,7 +1,7 @@
 <template>
   <div class="playlist">
     <div v-if="show">
-      <div v-if="!checkSpecialList && isLikeSongPage" class="playlist-info">
+      <div v-if="!inSpecialList && !isLikeSongPage" class="playlist-info">
         <Cover
           :id="playlist.id"
           :image-url="playlist.coverImgUrl | resizeImage(1024)"
@@ -14,10 +14,40 @@
         />
         <div class="info">
           <div class="title">{{ playlist.name }}</div>
+          <div class="artist">
+            By
+            <a :href="`https://music.163.com/#/user/home?id=${playlist.creator.userId}`" target="_blank">
+              {{ playlist.creator.nickname }}
+            </a>
+          </div>
+          <div class="date-and-count">
+            {{ $t("playlist.updatedAt") }}-{{ playlist.updateTime | formatDate }} -{{ playlist.trackCount }}
+            {{ $t("common.songs") }}
+          </div>
+          <div class="description">{{ playlist.description }}</div>
+          <div class="buttons">
+            <ButtonTwoTone icon-class="play" @click.native="playById()">{{ $t("common.play") }}</ButtonTwoTone>
+            <ButtonTwoTone
+              v-if="playlist.creator.userId !== userData.user.userId"
+              :horizontal-padding="0"
+              :color="playlist.subscribed ? 'blue' : 'grey'"
+              :text-color="playlist.subscribed ? '#335eea' : ''"
+              :icon-class="playlist.subscribed ? 'heart-solid' : 'heart'"
+              :background-color="playlist.subscribed ? 'var(--color-secondary-bg)' : ''"
+              @click.native="likePlaylist"
+            />
+            <ButtonTwoTone
+              icon-class="more"
+              color="grey"
+              :icon-button="true"
+              :horizontal-padding="0"
+              @click.native="openMenu"
+            />
+          </div>
         </div>
       </div>
     </div>
-    <div v-else class="empty-content">No Content</div>
+    <div v-if="showEmpty" class="empty-content">No Content</div>
   </div>
 </template>
 
@@ -27,13 +57,15 @@ import Cover from "@/components/Cover";
 import { mapState } from "vuex";
 import NProgress from "nprogress";
 import { getPlaylistDetail } from "@/api/playlist";
+import ButtonTwoTone from "@/components/ButtonTwoTone";
 
 export default {
   name: "Playlist",
-  components: { Cover },
+  components: { ButtonTwoTone, Cover },
   data() {
     return {
       show: false,
+      showEmpty: false,
       isLikeSongPage: false,
       loadMore: false,
       playlist: {
@@ -50,8 +82,8 @@ export default {
   },
   computed: {
     ...mapState(["userData"]),
-    checkSpecialList() {
-      return specialPlaylist[this.playlist.id] === undefined;
+    inSpecialList() {
+      return specialPlaylist[this.playlist.id] !== undefined;
     },
   },
   created() {
@@ -62,9 +94,9 @@ export default {
   methods: {
     loadData(id) {
       this.id = id;
-      this.show = true;
       getPlaylistDetail(this.id, true)
         .then((data) => {
+          this.show = true;
           this.playlist = data.playlist;
           this.tracks = data.playlist.tracks;
           this.lastLoadedTrackIndex = data.playlist.tracks.length - 1;
@@ -72,19 +104,30 @@ export default {
           return data;
         })
         .then(() => {
+          if (this.playlist.trackCount > this.tracks.length) {
+            this.loadMore = true;
+            this.loadMoreData();
+          }
+        })
+        .finally(() => {
           if (this.tracks.length === 0) {
-            this.show = false;
-          } else {
-            if (this.playlist.trackCount > this.tracks.length) {
-              this.loadMore = true;
-              this.loadMoreData();
-            }
+            this.showEmpty = true;
+            NProgress.done();
           }
         });
     },
     loadMoreData() {
       // todo loadMore
       return null;
+    },
+    playById() {
+      // todo 播放
+    },
+    likePlaylist() {
+      // todo 关注某个歌单
+    },
+    openMenu() {
+      // todo 打开菜单
     },
   },
 };
@@ -118,6 +161,40 @@ export default {
       font-size: 36px;
       font-weight: 700;
       color: var(--color-text);
+    }
+    .artist {
+      font-size: 18px;
+      opacity: 0.88;
+      color: var(--color-text);
+      margin-top: 24px;
+    }
+    .date-and-count {
+      font-size: 14px;
+      opacity: 0.68;
+      color: var(--color-text);
+      margin-top: 5px;
+    }
+    .description {
+      font-size: 14px;
+      opacity: 0.68;
+      color: var(--color-text);
+      margin-top: 18px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      cursor: pointer;
+      &:hover {
+        transition: opacity 0.3s;
+        opacity: 0.88;
+      }
+    }
+    .buttons {
+      margin-top: 36px;
+      display: flex;
+      button {
+        margin-right: 16px;
+      }
     }
   }
 }

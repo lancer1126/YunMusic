@@ -26,6 +26,22 @@ export default {
       type: Number,
       default: 16,
     },
+    iconButton: {
+      type: Boolean,
+      default: false,
+    },
+    textColor: {
+      type: String,
+      default: "",
+    },
+    shape: {
+      type: String,
+      default: "square",
+    },
+    backgroundColor: {
+      type: String,
+      default: "",
+    },
   },
   computed: {
     buttonStyle() {
@@ -62,7 +78,7 @@ button {
     height: 16px;
   }
   &:hover {
-    transform: scale(1.06);
+    transform: scale(1.08);
   }
   &:active {
     transform: scale(0.94);
