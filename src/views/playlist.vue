@@ -46,6 +46,8 @@
           </div>
         </div>
       </div>
+
+      <TrackList :id="playlist.id" :tracks="filteredTracks" type="playlist" />
     </div>
     <div v-if="showEmpty" class="empty-content">No Content</div>
   </div>
@@ -58,10 +60,11 @@ import { mapState } from "vuex";
 import NProgress from "nprogress";
 import { getPlaylistDetail } from "@/api/playlist";
 import ButtonTwoTone from "@/components/ButtonTwoTone";
+import TrackList from "@/components/TrackList";
 
 export default {
   name: "Playlist",
-  components: { ButtonTwoTone, Cover },
+  components: { TrackList, ButtonTwoTone, Cover },
   data() {
     return {
       show: false,
@@ -78,12 +81,22 @@ export default {
       },
       tracks: [],
       lastLoadedTrackIndex: 9,
+      searchKeyWords: "",
     };
   },
   computed: {
     ...mapState(["userData"]),
     inSpecialList() {
       return specialPlaylist[this.playlist.id] !== undefined;
+    },
+    filteredTracks() {
+      // 若进行了歌单内搜索，则只显示搜索内的列表
+      return this.tracks.filter(
+        (t) =>
+          (t.name && t.name.toLowerCase().includes(this.searchKeyWords.toLowerCase())) ||
+          (t.al.name && t.al.name.toLowerCase().includes(this.searchKeyWords.toLowerCase())) ||
+          t.ar.find((artist) => artist.name && artist.name.toLowerCase().includes(this.searchKeyWords.toLowerCase()))
+      );
     },
   },
   created() {
