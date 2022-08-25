@@ -22,7 +22,6 @@ export default {
       return this.artists.filter((a) => a.name !== this.exclude);
     },
     computedPrefix() {
-      console.log(this.filteredArtists);
       if (this.filteredArtists.length !== 0) return this.prefix;
       else return "";
     },

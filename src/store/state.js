@@ -4,7 +4,7 @@ import updateApp from "@/utils/updateApp";
 
 if (localStorage.getItem("appVersion") === null) {
   localStorage.setItem("settings", JSON.stringify(initLocalStorage.settings));
-  localStorage.setItem("userData", JSON.stringify(initLocalStorage.data));
+  localStorage.setItem("userData", JSON.stringify(initLocalStorage.userData));
   localStorage.setItem("appVersion", pkg.version);
 }
 

@@ -120,6 +120,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
 .index-row {
   margin-top: 54px;
 }
@@ -137,7 +143,6 @@ export default {
     margin: 12px 12px 24px 12px;
   }
 }
-
 .title {
   display: flex;
   justify-content: space-between;
@@ -152,13 +157,6 @@ export default {
     opacity: 0.68;
   }
 }
-
-footer {
-  display: flex;
-  justify-content: center;
-  margin-top: 48px;
-}
-
 .for-you-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

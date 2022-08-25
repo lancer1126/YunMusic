@@ -27,7 +27,7 @@
     <div class="controls">
       <div class="playing">
         <div class="container" @click.stop>
-          <img :src="currentTrack.al && currentTrack.al.picUrl" @click="goToAlbum" />
+          <img :src="currentTrack.al && currentTrack.al.picUrl" alt="" @click="goToAlbum" />
           <div class="track-info" :title="audioSource">
             <div :class="['name', { 'has-list': hasList }]" @click="hasList && goToList">
               {{ currentTrack.name }}
@@ -39,12 +39,12 @@
               </span>
             </div>
           </div>
-          <div class="like-button">
-            <button-icon :title="$t('player.like')" @click.native="likeATrack(player.currentTrack.id)">
-              <svg-icon v-show="!player.isCurrentTrackLiked" icon-class="heart"></svg-icon>
-              <svg-icon v-show="player.isCurrentTrackLiked" icon-class="heart-solid"></svg-icon>
-            </button-icon>
-          </div>
+          <!--          <div class="like-button">-->
+          <!--            <button-icon :title="$t('player.like')" @click.native="likeATrack(player.currentTrack.id)">-->
+          <!--              <svg-icon v-show="!player.isCurrentTrackLiked" icon-class="heart"></svg-icon>-->
+          <!--              <svg-icon v-show="player.isCurrentTrackLiked" icon-class="heart-solid"></svg-icon>-->
+          <!--            </button-icon>-->
+          <!--          </div>-->
         </div>
         <div class="blank"></div>
       </div>
@@ -56,12 +56,12 @@
 import { mapMutations, mapState } from "vuex";
 import VueSlider from "vue-slider-component";
 import "@/assets/css/slider.css";
-import ButtonIcon from "@/components/ButtonIcon";
+// import ButtonIcon from "@/components/ButtonIcon";
 
 export default {
   name: "Player",
   components: {
-    ButtonIcon,
+    // ButtonIcon,
     VueSlider,
   },
   computed: {
