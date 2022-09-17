@@ -1,6 +1,10 @@
 <template>
   <div v-show="show" class="home">
     <div class="index-row">
+      <div class="title">By Lovely Yun</div>
+      <CoverRow :type="'playlist'" :items="byLovelyYun" sub-text="lovely yun" />
+    </div>
+    <div class="index-row">
       <div class="title">
         {{ $t("home.recommendPlaylist") }}
         <router-link to="/explore?category=playlist">
@@ -42,6 +46,7 @@ import { getTopCharts, recommendPlaylist } from "@/api/playlist";
 import { getArtistByType } from "@/api/artist";
 import { getShuffledItems } from "@/utils/common";
 import { getNewAlbums } from "@/api/album";
+import { byLovelyYun } from "@/utils/staticData";
 import CoverRow from "@/components/CoverRow";
 import NProgress from "nprogress";
 import DailyTracksCard from "@/components/DailyTracksCard";
@@ -66,6 +71,11 @@ export default {
         indexes: [],
       },
     };
+  },
+  computed: {
+    byLovelyYun() {
+      return byLovelyYun;
+    },
   },
   activated() {
     this.loadData();

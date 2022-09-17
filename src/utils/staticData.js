@@ -1,3 +1,31 @@
+export const byLovelyYun = [
+  {
+    coverImgUrl: "https://p1.music.126.net/nnYz73-81nns42MX_anhEA==/19011655556466424.jpg",
+    name: "听了心情会变好的欢快古风小调",
+    id: 2163404529,
+  },
+  {
+    coverImgUrl: "https://p1.music.126.net/OIfKTottmMwlK_9Jo_H11w==/109951163890174392.jpg",
+    name: "「居家古风」如何把生活过成诗",
+    id: 2685449094,
+  },
+  {
+    coverImgUrl: "https://p1.music.126.net/ZQeB7CPxIJcT4bIzH_hm4w==/109951164101339638.jpg",
+    name: "【白噪声】写论文必备",
+    id: 642386905,
+  },
+  {
+    coverImgUrl: "https://p1.music.126.net/Dlk6gcbQK_mffI1PwCmVIQ==/3397490932122043.jpg",
+    name: "【致童年】喂！童年你走得慢点~",
+    id: 125993524,
+  },
+  {
+    coverImgUrl: "https://p1.music.126.net/uXbDB1aWsp36_I_lQs-DeA==/1411772930113118.jpg",
+    name: "这些充满『强烈画面感』的音乐",
+    id: 156934569,
+  },
+];
+
 export const playlistCategories = [
   {
     name: "全部",
