@@ -42,9 +42,9 @@ const routes = [
     name: "library",
     component: () => import("@/views/library"),
     meta: {
-      requireLogin: true,
       keepAlive: true,
       savePosition: true,
+      requireLogin: true,
     },
   },
 ];

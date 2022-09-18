@@ -1,4 +1,4 @@
-const updatePlay = () => {
+const updatePlayer = () => {
   let parsedData = JSON.parse(localStorage.getItem("player"));
   const data = {
     ...parsedData,
@@ -7,5 +7,5 @@ const updatePlay = () => {
 };
 
 export default function () {
-  updatePlay();
+  updatePlayer();
 }

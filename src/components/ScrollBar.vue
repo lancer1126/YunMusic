@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="fade">
-      <div v-show="show" id="scrollBar" :class="{ 'on-drag': isOnDrag }" @click="handleClick">
+      <div v-show="show" id="scrollbar" :class="{ 'on-drag': isOnDrag }" @click="handleClick">
         <div
           id="thumbContainer"
           :class="{ active }"
@@ -75,18 +75,6 @@ export default {
         this.positions[route.name] = { scrollTop, params: route.params };
       }
     },
-    handleClick(e) {
-      let scrollTop;
-      if (e.clientY < this.top + 84) {
-        scrollTop = -256;
-      } else {
-        scrollTop = 256;
-      }
-      this.main.scrollBy({
-        top: scrollTop,
-        behavior: "smooth",
-      });
-    },
     handleMouseenter() {
       this.active = true;
     },
@@ -117,6 +105,18 @@ export default {
       this.$parent.userSelectNone = false;
       document.removeEventListener("mousemove", this.handleDragMove);
       document.removeEventListener("mouseup", this.handleDragEnd);
+    },
+    handleClick(e) {
+      let scrollTop;
+      if (e.clientY < this.top + 84) {
+        scrollTop = -256;
+      } else {
+        scrollTop = 256;
+      }
+      this.main.scrollBy({
+        top: scrollTop,
+        behavior: "smooth",
+      });
     },
     setScrollbarHideTimeout() {
       if (this.hideTimer !== null) clearTimeout(this.hideTimer);

@@ -1,6 +1,10 @@
 import { personFM } from "@/api/other";
 
 const excludeSaveKeys = ["_playing", "_personalFMLoading", "_personalFMNextLoading"];
+const UNPLAYABLE_CONDITION = {
+  PLAY_NEXT_TRACK: "playNextTrack",
+  PLAY_PREV_TRACK: "playPrevTrack",
+};
 
 export default class {
   constructor() {
@@ -40,6 +44,7 @@ export default class {
     window.yesplaymusic.player = this;
   }
 
+  // region getter/setter
   get personalFMTrack() {
     return this._personalFMTrack;
   }
@@ -49,7 +54,21 @@ export default class {
   get currentTrack() {
     return this._currentTrack;
   }
+  get shuffle() {
+    return this._shuffle;
+  }
+  get list() {
+    return this.shuffle ? this._shuffledList : this._list;
+  }
+  get current() {
+    return this.shuffle ? this._shuffledCurrent : this._current;
+  }
+  get currentTrackId() {
+    return this._currentTrack?.id ?? 0;
+  }
+  // endregion
 
+  // region 内部方法
   _init() {
     if (
       this._personalFMTrack.id === 0 ||
@@ -63,7 +82,17 @@ export default class {
       });
     }
   }
+  _shuffleTheList(firstTrackId = this.currentTrackId) {
+    // todo 随机列表
+    return firstTrackId;
+  }
+  _replaceCurrentTrack(id, autoplay = true, nextUnplayable = UNPLAYABLE_CONDITION.PLAY_NEXT_TRACK) {
+    // todo 设置当前播放列表
+    return autoplay + nextUnplayable;
+  }
+  // endregion
 
+  // region 外部方法
   saveSelfToLocalStorage() {
     let player = {};
     for (let [key, value] of Object.entries(this)) {
@@ -72,4 +101,22 @@ export default class {
     }
     localStorage.setItem("player", JSON.stringify(player));
   }
+  replacePlaylist(trackIds, sourceId, sourceType, autoPlayTrackId = "first") {
+    this._isPersonalFM = false;
+    if (!this._enabled) this._enabled = true;
+    this.list = trackIds;
+    this.current = 0;
+    this._playlistSource = {
+      id: sourceId,
+      type: sourceType,
+    };
+    if (this.shuffle) this._shuffleTheList(autoPlayTrackId);
+    if (autoPlayTrackId === "first") {
+      this._replaceCurrentTrack(this.list[0]);
+    } else {
+      this.current = trackIds.indexOf(autoPlayTrackId);
+      this._replaceCurrentTrack(autoPlayTrackId);
+    }
+  }
+  // endregion
 }

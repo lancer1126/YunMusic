@@ -58,6 +58,7 @@ import { specialPlaylist } from "@/utils/staticData";
 import Cover from "@/components/Cover";
 import { mapState } from "vuex";
 import NProgress from "nprogress";
+import { getTrackDetail } from "@/api/track";
 import { getPlaylistDetail } from "@/api/playlist";
 import ButtonTwoTone from "@/components/ButtonTwoTone";
 import TrackList from "@/components/TrackList";
@@ -70,7 +71,8 @@ export default {
       show: false,
       showEmpty: false,
       isLikeSongPage: false,
-      loadMore: false,
+      loadingMore: false,
+      hasMore: false,
       playlist: {
         id: 0,
         coverImgUrl: "",
@@ -118,8 +120,8 @@ export default {
         })
         .then(() => {
           if (this.playlist.trackCount > this.tracks.length) {
-            this.loadMore = true;
-            this.loadMoreData();
+            this.loadingMore = true;
+            this.loadMoreTracks();
           }
         })
         .finally(() => {
@@ -129,12 +131,24 @@ export default {
           }
         });
     },
-    loadMoreData() {
-      // todo loadMore
-      return null;
+    loadMoreTracks(loadNum = 100) {
+      let trackIds = this.playlist.trackIds.filter((t, index) => {
+        if (index > this.lastLoadedTrackIndex && index <= this.lastLoadedTrackIndex + loadNum) {
+          return t;
+        }
+      });
+
+      trackIds = trackIds.map((t) => t.id);
+      getTrackDetail(trackIds.join(",")).then((data) => {
+        this.tracks.push(...data.songs);
+        this.lastLoadedTrackIndex += trackIds.length;
+        this.loadingMore = false;
+        this.hasMore = this.lastLoadedTrackIndex + 1 < this.playlist.trackIds.length;
+      });
     },
     playById() {
-      // todo 播放
+      let trackIds = this.playlist.trackIds.map((t) => t.id);
+      this.$store.state.player.replacePlaylist(trackIds);
     },
     likePlaylist() {
       // todo 关注某个歌单
@@ -150,7 +164,6 @@ export default {
 .playlist {
   margin-top: 32px;
 }
-
 .empty-content {
   position: relative;
   margin-top: 180px;
@@ -159,7 +172,6 @@ export default {
   font-size: 50px;
   color: #a4a4a6;
 }
-
 .playlist-info {
   display: flex;
   margin-bottom: 72px;

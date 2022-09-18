@@ -1,8 +1,9 @@
 <template>
   <div id="app" :class="{ 'user-select-none': userSelectNone }">
-    <ScrollBar v-show="true" ref="scrollBar" />
+    <!-- 页面滚动条-->
+    <ScrollBar ref="scrollBar" />
+    <!-- 顶部导航栏-->
     <NavBar v-show="showNavBar" ref="navBar" />
-
     <!-- 页面主体部分-->
     <main ref="main" :style="{ overflow: enableScrolling ? 'auto' : 'hidden' }" @scroll="handleScroll">
       <keep-alive>
@@ -10,7 +11,6 @@
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive"></router-view>
     </main>
-
     <!-- 底部播放栏 -->
     <transition name="slide-up">
       <Player v-if="enablePlayer" v-show="showPlayer" ref="player" />
