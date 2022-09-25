@@ -3,7 +3,9 @@ import { Howler, Howl } from "howler";
 import { getTrackDetail } from "@/api/track";
 import store from "@/store";
 import { isAccountLoggedIn } from "@/utils/auth";
+import { getPlaylistDetail } from "@/api/playlist";
 
+const PLAY_PAUSE_FADE_DURATION = 200;
 const excludeSaveKeys = ["_playing", "_personalFMLoading", "_personalFMNextLoading"];
 const UNPLAYABLE_CONDITION = {
   PLAY_NEXT_TRACK: "playNextTrack",
@@ -82,6 +84,15 @@ export default class {
   get volume() {
     return this._volume;
   }
+  get playing() {
+    return this._playing;
+  }
+  set playing(isPlaying) {
+    this._playing = isPlaying;
+  }
+  get isPersonalFM() {
+    return this._isPersonalFM;
+  }
   // endregion
 
   // region 内部方法
@@ -89,7 +100,17 @@ export default class {
    * 初始化数据
    */
   _init() {
+    this._loadSelfFromLocalStorage();
     Howler.volume(this.volume);
+
+    if (this.enabled) {
+      // 页面初始化后恢复播放当前歌曲
+      this._replaceCurrentTrack(this.currentTrackId, false).then(() => {
+        // 获取当前歌曲进度
+        this._howler?.seek(localStorage.getItem("curTrackTime") ?? 0);
+      });
+    }
+
     if (
       this._personalFMTrack.id === 0 ||
       this._personalFMNextTrack.id === 0 ||
@@ -104,6 +125,17 @@ export default class {
   }
 
   /**
+   * 从localStorage中读取当前歌曲信息并赋予到自身属性上
+   */
+  _loadSelfFromLocalStorage() {
+    let player = JSON.parse(localStorage.getItem("player"));
+    if (!player) return;
+    for (const [key, value] of Object.entries(player)) {
+      this[key] = value;
+    }
+  }
+
+  /**
    * 设置随机播放列表
    */
   _shuffleTheList(firstTrackId = this.currentTrackId) {
@@ -114,15 +146,15 @@ export default class {
   /**
    * 设置当前播放的歌曲
    */
-  _replaceCurrentTrack(id, autoplay = true, isNextUnplayable = UNPLAYABLE_CONDITION.PLAY_NEXT_TRACK) {
+  _replaceCurrentTrack(trackId, autoplay = true, nextUnplayable = UNPLAYABLE_CONDITION.PLAY_NEXT_TRACK) {
     if (autoplay && this.currentTrack.name) {
       // todo 播放进度条
     }
-    getTrackDetail(id).then((data) => {
+    return getTrackDetail(trackId).then((data) => {
       const track = data.songs[0];
       this._currentTrack = track;
       this._updateMediaSessionMetaData(track);
-      this._replaceCurTrackAudio(track, autoplay, true, isNextUnplayable);
+      this._replaceCurTrackAudio(track, autoplay, true, nextUnplayable);
     });
   }
 
@@ -224,6 +256,12 @@ export default class {
     }
   }
 
+  /**
+   * 设置播放状态
+   */
+  _setPlaying(isPlaying) {
+    this._playing = isPlaying;
+  }
   // endregion
 
   // region 播放器动作
@@ -233,6 +271,22 @@ export default class {
   play() {
     if (this._howler?.playing()) return;
     this._howler?.play();
+
+    this._howler?.once("play", () => {
+      this._howler?.fade(0, this.volume, PLAY_PAUSE_FADE_DURATION);
+      this._setPlaying(true);
+    });
+  }
+
+  /**
+   * 暂停
+   */
+  pause() {
+    this._howler?.fade(this.volume, 0, PLAY_PAUSE_FADE_DURATION);
+    this._howler?.once("fade", () => {
+      this._howler?.pause();
+      this._setPlaying(false);
+    });
   }
   // endregion
 
@@ -267,6 +321,27 @@ export default class {
     } else {
       this.current = trackIds.indexOf(autoPlayTrackId);
       this._replaceCurrentTrack(autoPlayTrackId);
+    }
+  }
+
+  /**
+   * 播放当前选择的列表
+   */
+  playPlaylistById(playlistId, trackId = "first", noCache = false) {
+    getPlaylistDetail(playlistId, noCache).then((data) => {
+      let trackIds = data.playlist.trackIds.map((t) => t.id);
+      this.replacePlaylist(trackIds, playlistId, "playlist", trackId);
+    });
+  }
+
+  /**
+   * 播放或暂停
+   */
+  playOrPause() {
+    if (this._howler?.playing()) {
+      this.pause();
+    } else {
+      this.play();
     }
   }
   // endregion

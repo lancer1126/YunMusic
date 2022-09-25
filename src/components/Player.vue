@@ -39,14 +39,33 @@
               </span>
             </div>
           </div>
-          <!--          <div class="like-button">-->
-          <!--            <button-icon :title="$t('player.like')" @click.native="likeATrack(player.currentTrack.id)">-->
-          <!--              <svg-icon v-show="!player.isCurrentTrackLiked" icon-class="heart"></svg-icon>-->
-          <!--              <svg-icon v-show="player.isCurrentTrackLiked" icon-class="heart-solid"></svg-icon>-->
-          <!--            </button-icon>-->
-          <!--          </div>-->
+          <div class="like-button">
+            <button-icon :title="$t('player.like')" @click.native="likeATrack(player.currentTrack.id)">
+              <svg-icon v-show="!player.isCurrentTrackLiked" icon-class="heart"></svg-icon>
+              <svg-icon v-show="player.isCurrentTrackLiked" icon-class="heart-solid"></svg-icon>
+            </button-icon>
+          </div>
         </div>
         <div class="blank"></div>
+      </div>
+      <div class="play-buttons">
+        <div class="container" @click.stop>
+          <!-- 若是电台为不喜欢，其他为上一首 -->
+          <button-icon :title="$t(checkLeftTitle)" @click.native="clickLeft">
+            <svg-icon :icon-class="checkLeftIcon" />
+          </button-icon>
+          <!-- 播放按钮 -->
+          <button-icon class="play" :title="$t(checkPlayStatus)" @click.native="playOrPause">
+            <svg-icon :icon-class="player.playing ? 'pause' : 'play'" />
+          </button-icon>
+          <!-- 下一首按钮 -->
+          <button-icon :title="$t('player.next')" @click.native="playNextTrack">
+            <svg-icon icon-class="next" />
+          </button-icon>
+        </div>
+      </div>
+      <div class="function-buttons">
+        <div></div>
       </div>
     </div>
   </div>
@@ -56,21 +75,30 @@
 import { mapMutations, mapState } from "vuex";
 import VueSlider from "vue-slider-component";
 import "@/assets/css/slider.css";
-// import ButtonIcon from "@/components/ButtonIcon";
+import ButtonIcon from "@/components/ButtonIcon";
 
 export default {
   name: "Player",
   components: {
-    // ButtonIcon,
+    ButtonIcon,
     VueSlider,
   },
   computed: {
-    ...mapState(["settings", "player", "data"]),
+    ...mapState(["settings", "player", "userData"]),
     currentTrack() {
       return this.player.currentTrack;
     },
     audioSource() {
       return this.player._howler?._src.includes("kuwo.cn") ? "音源来自酷我音乐" : "";
+    },
+    checkPlayStatus() {
+      return this.player.playing ? "player.pause" : "player.play";
+    },
+    checkLeftTitle() {
+      return this.player.isPersonalFM ? "player.dislike" : "player.previous";
+    },
+    checkLeftIcon() {
+      return this.player.isPersonalFM ? "thumbs-down" : "previous";
     },
   },
   methods: {
@@ -93,6 +121,19 @@ export default {
     goToArtist(id) {
       return id;
     },
+    playOrPause() {
+      this.player.playOrPause();
+    },
+    playNextTrack() {},
+    clickLeft() {
+      if (this.player.isPersonalFM) {
+        this.dislikeFM();
+      } else {
+        this.playPrevTrack();
+      }
+    },
+    dislikeFM() {},
+    playPrevTrack() {},
   },
 };
 </script>
@@ -202,11 +243,11 @@ export default {
   }
 }
 
-.middle-control-buttons {
+.play-buttons {
   display: flex;
 }
 
-.middle-control-buttons .container {
+.play-buttons .container {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -225,11 +266,11 @@ export default {
   }
 }
 
-.right-control-buttons {
+.function-buttons {
   display: flex;
 }
 
-.right-control-buttons .container {
+.function-buttons .container {
   display: flex;
   justify-content: flex-end;
   align-items: center;

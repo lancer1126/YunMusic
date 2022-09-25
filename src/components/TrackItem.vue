@@ -202,7 +202,7 @@ button {
   .album {
     flex: 1;
     display: flex;
-    font-size: 15px;
+    font-size: 16px;
     opacity: 0.88;
     color: var(--color-text);
     display: -webkit-box;
@@ -249,6 +249,28 @@ button {
 
 .track.album {
   height: 32px;
+}
+
+.track.playing {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  .title,
+  .album,
+  .time,
+  .title-and-artist .sub-title {
+    color: var(--color-primary);
+  }
+  .title .featured,
+  .artist,
+  .explicit-symbol,
+  .count {
+    color: var(--color-primary);
+    opacity: 0.88;
+  }
+  .no span {
+    color: var(--color-primary);
+    opacity: 0.78;
+  }
 }
 
 .actions {

@@ -104,6 +104,7 @@ export default {
     pause: "Pause",
     mute: "Mute",
     nextUp: "Next Up",
+    dislike: "Dislike",
   },
   modal: {
     close: "Close",

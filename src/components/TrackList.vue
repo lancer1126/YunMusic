@@ -6,6 +6,7 @@
         :key="itemKey === 'id' ? track.id : `${track.id}${index}`"
         :track-prop="track"
         :highlight-playing="highlightPlaying"
+        @dblclick.native="playThisList(track.id || track.songId)"
       />
     </div>
   </div>
@@ -13,6 +14,7 @@
 
 <script>
 import TrackItem from "@/components/TrackItem";
+import { mapState } from "vuex";
 export default {
   name: "TrackList",
   components: { TrackItem },
@@ -35,6 +37,14 @@ export default {
       type: Boolean,
       default: true,
     },
+    dbclickTrackFunc: {
+      type: String,
+      default: "default",
+    },
+    id: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -47,6 +57,9 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState(["player"]),
+  },
   created() {
     if (this.type === "tracklist") {
       this.listStyles = {
@@ -55,6 +68,18 @@ export default {
         gridTemplateColumns: `repeat(${this.columnNumber}, 1fr)`,
       };
     }
+  },
+  methods: {
+    playThisList(trackId) {
+      if (this.dbclickTrackFunc === "default") {
+        this.playTrackListDefault(trackId);
+      }
+    },
+    playTrackListDefault(trackId) {
+      if (this.type === "playlist") {
+        this.player.playPlaylistById(this.id, trackId);
+      }
+    },
   },
 };
 </script>
