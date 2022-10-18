@@ -124,7 +124,9 @@ export default {
     playOrPause() {
       this.player.playOrPause();
     },
-    playNextTrack() {},
+    playNextTrack() {
+      this.player.playNextTrack();
+    },
     clickLeft() {
       if (this.player.isPersonalFM) {
         this.dislikeFM();
@@ -133,7 +135,9 @@ export default {
       }
     },
     dislikeFM() {},
-    playPrevTrack() {},
+    playPrevTrack() {
+      this.player.playPrevTrack();
+    },
   },
 };
 </script>

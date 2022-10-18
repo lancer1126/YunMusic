@@ -6,12 +6,13 @@
     <div class="title">{{ $t("login.loginText") }}</div>
     <div class="section-2">
       <div v-show="mode === 'qrCode'">
-        <div v-show="qrCodeSvg" class="qr-code-container">
-          <img :src="qrCodeSvg" loading="lazy" alt="" />
-        </div>
-        <div class="qr-code-info">
-          {{ qrCodeInfo }}
-        </div>
+        暂时关闭
+        <!--        <div v-show="qrCodeSvg" class="qr-code-container">-->
+        <!--          <img :src="qrCodeSvg" loading="lazy" alt="" />-->
+        <!--        </div>-->
+        <!--        <div class="qr-code-info">-->
+        <!--          {{ qrCodeInfo }}-->
+        <!--        </div>-->
       </div>
     </div>
   </div>
