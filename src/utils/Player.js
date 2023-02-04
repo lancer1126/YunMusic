@@ -160,7 +160,7 @@ export default class {
       const track = data.songs[0];
       this._currentTrack = track;
       this._updateMediaSessionMetaData(track);
-      this._replaceCurTrackAudio(track, autoplay, true, nextUnplayable);
+      return this._replaceCurTrackAudio(track, autoplay, true, nextUnplayable);
     });
   }
 
@@ -242,6 +242,9 @@ export default class {
       html5: true,
       preload: true,
       format: ["mp3", "flac"],
+      onend: () => {
+        this._nextTrackCallback();
+      },
     });
 
     if (autoplay) {
@@ -294,6 +297,13 @@ export default class {
     }
     return [this.list[prev], prev];
   }
+
+  /**
+   * 歌曲结束时自动切换下一首
+   */
+  _nextTrackCallback() {
+    this.playNextTrack();
+  }
   // endregion
 
   // region 播放器动作
@@ -338,10 +348,10 @@ export default class {
   /**
    * 设置或替换当前的播放列表
    */
-  replacePlaylist(trackIds, sourceId, sourceType, autoPlayTrackId = "first") {
+  replacePlaylist(trackIdList, sourceId, sourceType, autoPlayTrackId = "first") {
     this._isPersonalFM = false;
     if (!this._enabled) this._enabled = true;
-    this.list = trackIds;
+    this.list = trackIdList;
     this.current = 0;
     this._playlistSource = {
       id: sourceId,
@@ -351,7 +361,7 @@ export default class {
     if (autoPlayTrackId === "first") {
       this._replaceCurrentTrack(this.list[0]);
     } else {
-      this.current = trackIds.indexOf(autoPlayTrackId);
+      this.current = trackIdList.indexOf(autoPlayTrackId);
       this._replaceCurrentTrack(autoPlayTrackId);
     }
   }
@@ -359,7 +369,7 @@ export default class {
   /**
    * 播放当前选择的列表
    */
-  playPlaylistById(playlistId, trackId = "first", noCache = false) {
+  playMusicListById(playlistId, trackId = "first", noCache = false) {
     getPlaylistDetail(playlistId, noCache).then((data) => {
       let trackIds = data.playlist.trackIds.map((t) => t.id);
       this.replacePlaylist(trackIds, playlistId, "playlist", trackId);

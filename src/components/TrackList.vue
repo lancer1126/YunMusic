@@ -6,7 +6,7 @@
         :key="itemKey === 'id' ? track.id : `${track.id}${index}`"
         :track-prop="track"
         :highlight-playing="highlightPlaying"
-        @dblclick.native="playThisList(track.id || track.songId)"
+        @dblclick.native="playThisList(track)"
       />
     </div>
   </div>
@@ -70,14 +70,17 @@ export default {
     }
   },
   methods: {
-    playThisList(trackId) {
+    playThisList(track) {
+      if (track?.privilege?.pl <= 0) return;
+
+      let trackId = track.id || track.songId;
       if (this.dbclickTrackFunc === "default") {
         this.playTrackListDefault(trackId);
       }
     },
     playTrackListDefault(trackId) {
       if (this.type === "playlist") {
-        this.player.playPlaylistById(this.id, trackId);
+        this.player.playMusicListById(this.id, trackId);
       }
     },
   },
